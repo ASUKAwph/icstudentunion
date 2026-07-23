@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>集成电路学院学生会</title>
+  <meta name="description" content="山东大学集成电路学院学生会部门介绍与纳新信息">
+  <style>
+    :root {
+      --background: #f3f8fc;
+      --foreground: #14233b;
+      --deep-blue: #0c477a;
+      --blue: #176fa5;
+      --cyan: #52b7cc;
+      --red: #a30b13;
+      --brick: #88413b;
+      --paper: rgba(255, 255, 255, 0.94);
+      --line: rgba(12, 71, 122, 0.16);
+      --muted: rgba(20, 35, 59, 0.72);
+      --shadow: 0 24px 70px rgba(20, 35, 59, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--foreground);
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    h1, h2, h3, p { margin-top: 0; }
+
+    .hero, .departments-section, .join-section {
+      position: relative;
+    }
+
+    .hero {
+      min-height: 96vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      background: #dceff8;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(244, 249, 252, 0.98) 0%, rgba(244, 249, 252, 0.86) 36%, rgba(244, 249, 252, 0.24) 77%),
+        linear-gradient(180deg, rgba(82, 183, 204, 0.12), rgba(136, 65, 59, 0.24));
+    }
+
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center right;
+    }
+
+    .hero-inner, .departments-section, .join-section {
+      width: min(1160px, calc(100% - 40px));
+      margin: 0 auto;
+      z-index: 1;
+    }
+
+    .hero-inner {
+      position: relative;
+      padding: 76px 0 104px;
+    }
+
+    .hero-copy {
+      max-width: 980px;
+    }
+
+    .eyebrow {
+      margin-bottom: 16px;
+      color: var(--deep-blue);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      margin-bottom: 32px;
+      color: var(--foreground);
+      font-size: clamp(3.4rem, 7.6vw, 7.4rem);
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    .college-line {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .student-union-line {
+      display: flex;
+      align-items: center;
+      gap: clamp(8px, 1vw, 14px);
+      white-space: nowrap;
+    }
+
+    .student-union-line img {
+      flex: 0 0 auto;
+      width: clamp(68px, 7vw, 108px);
+      height: clamp(68px, 7vw, 108px);
+      object-fit: contain;
+      border-radius: 50%;
+      mix-blend-mode: multiply;
+    }
+
+    .lead {
+      max-width: 630px;
+      margin-bottom: 34px;
+      color: rgba(20, 35, 59, 0.76);
+      font-size: 1.08rem;
+      line-height: 1.85;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .primary, .secondary {
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 13px 25px;
+      font-weight: 900;
+      border: 1px solid transparent;
+    }
+
+    .primary {
+      background: linear-gradient(135deg, var(--red), var(--brick));
+      color: white;
+      box-shadow: 0 18px 36px rgba(136, 65, 59, 0.28);
+    }
+
+    .secondary {
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--deep-blue);
+      border-color: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 18px 36px rgba(20, 35, 59, 0.08);
+    }
+
+    .departments-section {
+      padding: 88px 0;
+    }
+
+    .section-title {
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      margin-bottom: 0;
+      color: var(--foreground);
+      font-size: clamp(2.4rem, 5vw, 4.9rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin-bottom: 16px;
+      color: var(--deep-blue);
+      font-size: clamp(1.7rem, 3.2vw, 2.6rem);
+      line-height: 1.15;
+    }
+
+    .department-tabs {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      margin-bottom: 26px;
+      padding: 14px 0;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      background: rgba(243, 248, 252, 0.92);
+      backdrop-filter: blur(14px);
+    }
+
+    .department-tabs a {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 10px 16px;
+      background: white;
+      border: 1px solid var(--line);
+      color: var(--deep-blue);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .department-list {
+      display: grid;
+      gap: 24px;
+    }
+
+    .department-panel {
+      scroll-margin-top: 92px;
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(420px, 1fr);
+      gap: clamp(22px, 4vw, 40px);
+      padding: clamp(24px, 4vw, 44px);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at top right, rgba(82, 183, 204, 0.18), transparent 36%),
+        var(--paper);
+      box-shadow: 0 18px 52px rgba(20, 35, 59, 0.08);
+    }
+
+    .department-panel:nth-child(2n) {
+      background:
+        radial-gradient(circle at top right, rgba(163, 11, 19, 0.1), transparent 35%),
+        var(--paper);
+    }
+
+    .department-heading {
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .department-heading span, .feature-row span {
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 6px 12px;
+      background: rgba(12, 71, 122, 0.08);
+      color: var(--deep-blue);
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+
+    .department-index {
+      margin: 0;
+      color: var(--red);
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+
+    .department-slogan {
+      margin-bottom: 18px;
+      color: var(--red);
+      font-size: clamp(1.16rem, 2vw, 1.5rem);
+      line-height: 1.7;
+      font-weight: 900;
+    }
+
+    .department-intro {
+      margin-bottom: 22px;
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.85;
+    }
+
+    .feature-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .photo-carousel {
+      min-width: 0;
+      align-self: center;
+      position: relative;
+      border-radius: 8px;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06), transparent 18%, transparent 82%, rgba(255, 255, 255, 0.06)),
+        #111827;
+      border: 1px solid rgba(12, 71, 122, 0.18);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+        0 18px 44px rgba(20, 35, 59, 0.18);
+      overflow: hidden;
+    }
+
+    .photo-carousel::before,
+    .photo-carousel::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 18px;
+      z-index: 3;
+      pointer-events: none;
+      background:
+        radial-gradient(circle, rgba(255, 255, 255, 0.92) 0 4px, transparent 4.5px) 0 50% / 28px 16px repeat-x,
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+      opacity: 0.88;
+    }
+
+    .photo-carousel::before {
+      top: 10px;
+    }
+
+    .photo-carousel::after {
+      bottom: 10px;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 16px;
+      padding: 42px 18px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      cursor: grab;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.07), transparent 20%, transparent 80%, rgba(255, 255, 255, 0.07));
+    }
+
+    .carousel-track::-webkit-scrollbar { display: none; }
+    .photo-carousel:hover .carousel-track { cursor: ew-resize; }
+
+    .slide {
+      flex: 0 0 calc((100% - 16px) / 2);
+      min-width: 0;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      border-radius: 6px;
+      background: #dceaf2;
+      border: 5px solid rgba(255, 255, 255, 0.9);
+      box-shadow:
+        0 12px 26px rgba(0, 0, 0, 0.34),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+      transform: translateZ(0);
+      transition: transform 0.45s ease, box-shadow 0.45s ease, filter 0.45s ease;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.01);
+      transition: transform 0.65s ease;
+    }
+
+    .photo-carousel.is-paused .slide {
+      filter: saturate(0.92) brightness(0.94);
+    }
+
+    .photo-carousel.is-paused .slide:hover {
+      transform: translateY(-6px) scale(1.025);
+      filter: saturate(1.08) brightness(1.02);
+      box-shadow:
+        0 22px 38px rgba(0, 0, 0, 0.38),
+        0 0 0 1px rgba(82, 183, 204, 0.28);
+    }
+
+    .photo-carousel.is-paused .slide:hover img {
+      transform: scale(1.075);
+    }
+
+    .photo-carousel.is-stepping .slide {
+      animation: filmPulse 0.72s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    @keyframes filmPulse {
+      0% { transform: translateY(0) scale(1); filter: brightness(1); }
+      42% { transform: translateY(-4px) scale(1.012); filter: brightness(1.05); }
+      100% { transform: translateY(0) scale(1); filter: brightness(1); }
+    }
+
+    .join-section {
+      margin-bottom: 72px;
+      padding: 72px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 44px;
+      align-items: center;
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at top left, rgba(82, 183, 204, 0.26), transparent 34%),
+        var(--deep-blue);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .join-section .eyebrow, .join-section h2, .join-section p { color: white; }
+
+    .join-copy p {
+      color: rgba(255, 255, 255, 0.78);
+      max-width: 620px;
+      font-size: 1.06rem;
+      line-height: 1.85;
+    }
+
+    .group-number {
+      width: fit-content;
+      min-height: 76px;
+      margin-top: 30px;
+      padding: 14px 22px;
+      display: grid;
+      gap: 4px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .group-number span {
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.9rem;
+    }
+
+    .group-number strong {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1;
+      letter-spacing: 0.04em;
+    }
+
+    .join-actions {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .back-top {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--deep-blue);
+      font-weight: 900;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .back-top:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.16);
+    }
+
+    .qr-card {
+      border-radius: 8px;
+      padding: 18px;
+      background: white;
+      color: var(--deep-blue);
+      text-align: center;
+    }
+
+    .qr-card img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .qr-card p {
+      margin: 14px 0 0;
+      font-weight: 900;
+    }
+
+    @media (max-width: 980px) {
+      .department-panel, .join-section {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-inner {
+        padding: 54px 0 86px;
+      }
+
+      .qr-card {
+        max-width: 340px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .hero-inner, .departments-section, .join-section {
+        width: min(100% - 28px, 1160px);
+      }
+
+      .hero-title {
+        font-size: clamp(2.32rem, 11.5vw, 4.15rem);
+      }
+
+      .student-union-line img {
+        width: clamp(52px, 15vw, 78px);
+        height: clamp(52px, 15vw, 78px);
+      }
+
+      .lead {
+        font-size: 1rem;
+      }
+
+      .department-tabs {
+        margin-inline: -14px;
+        padding-inline: 14px;
+      }
+
+      .department-panel {
+        padding: 22px;
+      }
+
+      .slide {
+        flex-basis: 78%;
+      }
+
+      .join-section {
+        padding: 44px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero" id="top">
+      <div class="hero-bg" aria-hidden="true">
+        <img src="assets/hero-building.jpg" alt="">
+      </div>
+
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">School of Integrated Circuits</p>
+          <h1 class="hero-title">
+            <span class="college-line">集成电路学院</span>
+            <span class="student-union-line">
+              <span>学生会</span>
+              <img src="assets/union-emblem.jpg" alt="学生会徽标">
+            </span>
+          </h1>
+          <p class="lead">在这里，我们一起服务同学、组织活动、记录校园，也把热爱与责任变成具体行动。</p>
+          <div class="hero-actions">
+            <a class="primary" href="#departments">部门介绍</a>
+            <a class="secondary" href="#join">加入我们</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="departments-section" id="departments">
+      <div class="section-title">
+        <p class="eyebrow">Departments</p>
+        <h2>部门介绍</h2>
+      </div>
+
+      <div class="department-tabs" aria-label="部门导航">
+        <a href="#general">综合事务部</a>
+        <a href="#academic">学术文化部</a>
+        <a href="#arts">艺体活动部</a>
+        <a href="#service">实践服务部</a>
+        <a href="#media">纪实联络部</a>
+      </div>
+
+      <div class="department-list">
+        <article class="department-panel" id="general">
+          <div class="department-copy">
+            <div class="department-heading"><p class="department-index">01</p><span>幕后枢纽</span></div>
+            <h3>综合事务部</h3>
+            <p class="department-slogan">学生会幕后枢纽，掌管物资财务与权益，更策划电竞、风筝节、躲猫猫等好玩活动。练技能、交朋友、找归属，温暖大家庭等你来。</p>
+            <p class="department-intro">综合事务部是学生会里的协调中枢，负责物资管理、财务报销、权益维护和部门联络，也会参与提案大赛、宿舍文化节、电竞比赛、风筝节等特色活动的策划与执行。</p>
+            <div class="feature-row"><span>物资财务</span><span>权益联络</span><span>活动统筹</span><span>温暖团队</span></div>
+          </div>
+          <div class="photo-carousel" data-speed="0.48" aria-label="综合事务部活动照片轮播">
+            <div class="carousel-track">
+              <div class="slide"><img src="assets/departments/general/general-01.jpg" alt="综合事务部活动照片 1"></div>
+              <div class="slide"><img src="assets/departments/general/general-02.jpg" alt="综合事务部活动照片 2"></div>
+              <div class="slide"><img src="assets/departments/general/general-04.jpg" alt="综合事务部活动照片 4"></div>
+              <div class="slide"><img src="assets/departments/general/general-05.jpg" alt="综合事务部活动照片 5"></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="department-panel" id="academic">
+          <div class="department-copy">
+            <div class="department-heading"><p class="department-index">02</p><span>文化探索</span></div>
+            <h3>学术文化部</h3>
+            <p class="department-slogan">在趣味中碰撞思想，在文化中汲取力量。猜歌、诗词、棋赛、读书会，我们用多元活动连接彼此，让兴趣绽放。</p>
+            <p class="department-intro">学术文化部致力于丰富校园文化生活、提升同学综合素养，打造集知识交流、文化传播与兴趣培养于一体的平台，活动涵盖学术交流、趣味竞赛、传统文化、经验分享和创意实践。</p>
+            <div class="feature-row"><span>学术交流</span><span>文化活动</span><span>兴趣拓展</span><span>创意实践</span></div>
+          </div>
+          <div class="photo-carousel" data-speed="0.44" aria-label="学术文化部活动照片轮播">
+            <div class="carousel-track">
+              <div class="slide"><img src="assets/departments/academic/academic-01.jpg" alt="学术文化部活动照片 1"></div>
+              <div class="slide"><img src="assets/departments/academic/academic-02.jpg" alt="学术文化部活动照片 2"></div>
+              <div class="slide"><img src="assets/departments/academic/academic-03.jpg" alt="学术文化部活动照片 3"></div>
+              <div class="slide"><img src="assets/departments/academic/academic-04.jpg" alt="学术文化部活动照片 4"></div>
+              <div class="slide"><img src="assets/departments/academic/academic-05.jpg" alt="学术文化部活动照片 5"></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="department-panel" id="arts">
+          <div class="department-copy">
+            <div class="department-heading"><p class="department-index">03</p><span>高光制造</span></div>
+            <h3>艺体活动部</h3>
+            <p class="department-slogan">从舞台到赛场，我们是“芯”青年的高光制造者。每一束追光、每一声呐喊，都由我们创造。</p>
+            <p class="department-intro">艺体活动部负责策划、组织和执行学院各类文艺与体育活动。从颁奖典礼暨文艺晚会到主题街演，从球类嘉年华到新生杯和运动会，精彩活动背后都有我们的身影。</p>
+            <div class="feature-row"><span>文艺晚会</span><span>体育赛事</span><span>街演舞台</span><span>运动会服务</span></div>
+          </div>
+          <div class="photo-carousel" data-speed="0.5" aria-label="艺体活动部活动照片轮播">
+            <div class="carousel-track">
+              <div class="slide"><img src="assets/departments/arts/arts-01.jpg" alt="艺体活动部活动照片 1"></div>
+              <div class="slide"><img src="assets/departments/arts/arts-02.jpg" alt="艺体活动部活动照片 2"></div>
+              <div class="slide"><img src="assets/departments/arts/arts-03.jpg" alt="艺体活动部活动照片 3"></div>
+              <div class="slide"><img src="assets/departments/arts/arts-04.jpg" alt="艺体活动部活动照片 4"></div>
+              <div class="slide"><img src="assets/departments/arts/arts-05.jpg" alt="艺体活动部活动照片 5"></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="department-panel" id="service">
+          <div class="department-copy">
+            <div class="department-heading"><p class="department-index">04</p><span>实干发光</span></div>
+            <h3>实践服务部</h3>
+            <p class="department-slogan">以实践筑青春，以服务暖人心。走出课堂，奔赴山海，让你的大学不止于书本。知行合一，实干发光。</p>
+            <p class="department-intro">实践服务部是连接校园与同学、联动实践与服务的核心职能部门，统筹志愿服务、社会实践、公益项目和师生服务，让每一份热忱都有归宿，每一次付出都有意义。</p>
+            <div class="feature-row"><span>志愿服务</span><span>社会实践</span><span>师生桥梁</span><span>活动落地</span></div>
+          </div>
+          <div class="photo-carousel" data-speed="0.46" aria-label="实践服务部活动照片轮播">
+            <div class="carousel-track">
+              <div class="slide"><img src="assets/departments/service/service-01.jpg" alt="实践服务部活动照片 1"></div>
+              <div class="slide"><img src="assets/departments/service/service-02.jpg" alt="实践服务部活动照片 2"></div>
+              <div class="slide"><img src="assets/departments/service/service-03.jpg" alt="实践服务部活动照片 3"></div>
+              <div class="slide"><img src="assets/departments/service/service-04.jpg" alt="实践服务部活动照片 4"></div>
+              <div class="slide"><img src="assets/departments/service/service-05.jpg" alt="实践服务部活动照片 5"></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="department-panel" id="media">
+          <div class="department-copy">
+            <div class="department-heading"><p class="department-index">05</p><span>记录传播</span></div>
+            <h3>纪实联络部</h3>
+            <p class="department-slogan">镜头定格现场，笔尖传递温度。摄影、新闻、推文、海报和芯视野校园电视台，带你做青春的记录人。</p>
+            <p class="department-intro">纪实联络部是学生会的“眼睛”与“声音”，负责现场记录、新闻采编、推文排版、视觉设计和视频新闻，用镜头和文字记录校园故事，让学生会的声音被更多人看见。</p>
+            <div class="feature-row"><span>摄影摄像</span><span>新闻采编</span><span>视觉设计</span><span>视频栏目</span></div>
+          </div>
+          <div class="photo-carousel" data-speed="0.42" aria-label="纪实联络部活动照片轮播">
+            <div class="carousel-track">
+              <div class="slide"><img src="assets/departments/media/media-01.jpg" alt="纪实联络部活动照片 1"></div>
+              <div class="slide"><img src="assets/departments/media/media-02.jpg" alt="纪实联络部活动照片 2"></div>
+              <div class="slide"><img src="assets/departments/media/media-03.jpg" alt="纪实联络部活动照片 3"></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="join-section" id="join">
+      <div class="join-copy">
+        <p class="eyebrow">Join Us</p>
+        <h2>加入我们</h2>
+        <p>扫描二维码加入纳新群，了解招新安排、部门信息和后续通知。</p>
+        <div class="group-number">
+          <span>纳新群号</span>
+          <strong>960240438</strong>
+        </div>
+        <div class="join-actions">
+          <a class="back-top" href="#top">回到顶部</a>
+        </div>
+      </div>
+      <div class="qr-card">
+        <img src="assets/recruitment-qr.png" alt="山东大学集成电路学院学生会纳新群二维码">
+        <p>QQ 纳新群二维码</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.querySelectorAll(".photo-carousel").forEach((carousel) => {
+      const track = carousel.querySelector(".carousel-track");
+      if (!track) return;
+
+      const originals = Array.from(track.children);
+      for (let round = 0; round < 2; round += 1) {
+        originals.forEach((item) => {
+          const clone = item.cloneNode(true);
+          clone.setAttribute("aria-hidden", "true");
+          track.appendChild(clone);
+        });
+      }
+
+      let paused = false;
+      let wheelLocked = false;
+      let settleTimer = 0;
+
+      const getStep = () => {
+        const first = track.querySelector(".slide");
+        if (!first) return track.clientWidth;
+        const styles = window.getComputedStyle(track);
+        const gap = Number.parseFloat(styles.columnGap || styles.gap || "0") || 0;
+        return first.getBoundingClientRect().width + gap;
+      };
+
+      const getCycleWidth = () => originals.length * getStep();
+
+      const normalize = () => {
+        const cycle = getCycleWidth();
+        if (cycle <= 0) return;
+
+        if (track.scrollLeft >= cycle * 2) {
+          track.scrollLeft -= cycle;
+        } else if (track.scrollLeft < cycle) {
+          track.scrollLeft += cycle;
+        }
+      };
+
+      const resetToMiddle = () => {
+        const cycle = getCycleWidth();
+        if (cycle > 0) track.scrollLeft = cycle;
+      };
+
+      const moveBySlide = (direction) => {
+        normalize();
+        const cycle = getCycleWidth();
+        const step = getStep();
+        if (!step || !cycle) return;
+
+        if (direction < 0 && track.scrollLeft < cycle + step * 0.5) {
+          track.scrollLeft += cycle;
+        } else if (direction > 0 && track.scrollLeft > cycle * 2 - step * 1.5) {
+          track.scrollLeft -= cycle;
+        }
+
+        carousel.classList.add("is-stepping");
+        window.clearTimeout(settleTimer);
+        track.scrollTo({
+          left: track.scrollLeft + direction * step,
+          behavior: "smooth"
+        });
+
+        settleTimer = window.setTimeout(() => {
+          normalize();
+          carousel.classList.remove("is-stepping");
+        }, 760);
+      };
+
+      const autoplay = window.setInterval(() => {
+        if (!paused) {
+          moveBySlide(1);
+        }
+      }, 3000);
+
+      carousel.addEventListener("mouseenter", () => {
+        paused = true;
+        carousel.classList.add("is-paused");
+      });
+
+      carousel.addEventListener("mouseleave", () => {
+        paused = false;
+        carousel.classList.remove("is-paused");
+      });
+
+      carousel.addEventListener("wheel", (event) => {
+        if (!paused) return;
+        event.preventDefault();
+        if (wheelLocked) return;
+
+        const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+        if (Math.abs(delta) < 2) return;
+
+        wheelLocked = true;
+        moveBySlide(delta > 0 ? 1 : -1);
+        window.setTimeout(() => {
+          wheelLocked = false;
+        }, 620);
+      }, { passive: false });
+
+      window.requestAnimationFrame(resetToMiddle);
+      window.addEventListener("load", resetToMiddle, { once: true });
+      window.addEventListener("resize", resetToMiddle);
+      carousel.addEventListener("remove", () => window.clearInterval(autoplay));
+    });
+  </script>
+</body>
+</html>
